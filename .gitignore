@@ -1,0 +1,15 @@
+# Temp files
+*.tmp
+*.temp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.pyc
+
+# Credentials (should never be committed)
+*.key
+*.pem
