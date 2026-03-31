@@ -2,17 +2,29 @@
 # feishu-voice-send.sh — Edge TTS → OPUS → Feishu audio message
 # Usage: feishu-voice-send.sh <text> [receive_id] [voice]
 #
-# Defaults:
-#   receive_id: from FEISHU_RECEIVE_ID env var, or prompt if not set
-#   voice: zh-CN-XiaoxiaoNeural
+# 环境变量：
+#   FEISHU_APP_ID      — 飞书 App ID（必填）
+#   FEISHU_APP_SECRET  — 飞书 App Secret（必填）
+#   FEISHU_RECEIVE_ID  — 接收者 open_id（可选，优先级低于参数）
 
 TEXT="${1:?Usage: feishu-voice-send.sh <text> [receive_id] [voice]}"
-RECEIVE_ID="${2:-${FEISHU_RECEIVE_ID}}"
 VOICE="${3:-zh-CN-XiaoxiaoNeural}"
 
-# 凭证从环境变量读取
-APP_ID="${FEISHU_APP_ID:?需要设置 FEISHU_APP_ID 环境变量}"
-APP_SECRET="${FEISHU_APP_SECRET:?需要设置 FEISHU_APP_SECRET 环境变量}"
+# receive_id：参数2 > 环境变量 FEISHU_RECEIVE_ID
+if [ -n "$2" ]; then
+    RECEIVE_ID="$2"
+elif [ -n "$FEISHU_RECEIVE_ID" ]; then
+    RECEIVE_ID="$FEISHU_RECEIVE_ID"
+else
+    echo "ERROR: 需要传入 receive_id，或设置 FEISHU_RECEIVE_ID 环境变量" >&2
+    exit 1
+fi
+
+# 凭证校验
+if [ -z "$FEISHU_APP_ID" ] || [ -z "$FEISHU_APP_SECRET" ]; then
+    echo "ERROR: 需要设置 FEISHU_APP_ID 和 FEISHU_APP_SECRET 环境变量" >&2
+    exit 1
+fi
 
 TMPDIR=$(mktemp -d)
 trap 'rm -rf "$TMPDIR"' EXIT
@@ -33,7 +45,7 @@ DURATION=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$OPUS" | 
 # Step 4: Get tenant_access_token
 TOKEN=$(curl -sf -X POST 'https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal' \
   -H 'Content-Type: application/json' \
-  -d "{\"app_id\":\"$APP_ID\",\"app_secret\":\"$APP_SECRET\"}" \
+  -d "{\"app_id\":\"$FEISHU_APP_ID\",\"app_secret\":\"$FEISHU_APP_SECRET\"}" \
   | python3 -c "import sys,json; print(json.load(sys.stdin)['tenant_access_token'])")
 
 # Step 5: Upload opus
