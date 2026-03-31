@@ -123,6 +123,12 @@ A: 把 `FEISHU_RECEIVE_ID` 改成群聊 ID（oc_xxxx），同时 msg_type 用 `i
 - [OpenClaw](https://github.com/openclaw/openclaw) — AI 智能体框架，支持飞书、Telegram、Discord 等多平台
 - [feishu-voice Skill](https://github.com/Mayiv-Ai/feishu-voice/tree/main/skills) — OpenClaw 技能格式，可直接导入
 
+## 交流群
+
+👉 [点击加入飞书交流群](https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=d32n52ca-753a-4b2e-a1c4-d5c977d64ca3)
+
+永久邀请链接，加入后即可参与讨论、提问和获取更新通知。
+
 ## 项目地址
 
 [![GitHub Repo](https://img.shields.io/badge/GitHub-Mayiv--Ai%2Ffeishu--voice-24292e?style=flat-square&logo=github)](https://github.com/Mayiv-Ai/feishu-voice)
