@@ -1,6 +1,21 @@
 # Feishu Voice — 飞书语音发送工具
 
-用 Edge TTS 把文字转语音，直接发到飞书。支持纯语音发送和文字+语音同时发送。无需 API Key，完全免费。
+[![OpenClaw 飞书语音插件](https://img.shields.io/badge/OpenClaw-Feishu%20Voice%20Plugin-6366f1?style=flat-square)](https://github.com/openclaw/openclaw)
+[![GitHub Repo](https://img.shields.io/badge/GitHub-Mayiv--Ai%2Ffeishu--voice-24292e?style=flat-square&logo=github)](https://github.com/Mayiv-Ai/feishu-voice)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
+
+> 用 Edge TTS 把文字转语音，直接发到飞书。支持纯语音发送和文字+语音同时发送。**无需 API Key，完全免费。**
+
+## 插件说明
+
+本项目是 [OpenClaw](https://github.com/openclaw/openclaw) 的飞书语音插件，可作为独立脚本使用，也可以通过 OpenClaw 平台调用。
+
+### 适用场景
+
+- OpenClaw 智能体发送飞书语音消息
+- AI 助手集成语音播报功能
+- CI/CD 自动化语音通知
+- 任何需要飞书语音消息的场景
 
 ## 功能
 
@@ -103,6 +118,11 @@ A: 检查 FEISHU_APP_ID、FEISHU_APP_SECRET、FEISHU_RECEIVE_ID 是否已设置
 **Q: 可以发到群聊吗？**
 A: 把 `FEISHU_RECEIVE_ID` 改成群聊 ID（oc_xxxx），同时 msg_type 用 `interactive`
 
+## 相关项目
+
+- [OpenClaw](https://github.com/openclaw/openclaw) — AI 智能体框架，支持飞书、Telegram、Discord 等多平台
+- [feishu-voice Skill](https://github.com/Mayiv-Ai/feishu-voice/tree/main/skills) — OpenClaw 技能格式，可直接导入
+
 ## 项目地址
 
-https://github.com/Mayiv-Ai/feishu-voice
+[![GitHub Repo](https://img.shields.io/badge/GitHub-Mayiv--Ai%2Ffeishu--voice-24292e?style=flat-square&logo=github)](https://github.com/Mayiv-Ai/feishu-voice)
