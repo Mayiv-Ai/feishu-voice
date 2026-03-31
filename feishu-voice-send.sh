@@ -3,17 +3,16 @@
 # Usage: feishu-voice-send.sh <text> [receive_id] [voice]
 #
 # Defaults:
-#   receive_id: ou_XXXXXXXXXXXXXXXXXXXXXXXXXX (博哥)
+#   receive_id: from FEISHU_RECEIVE_ID env var, or prompt if not set
 #   voice: zh-CN-XiaoxiaoNeural
 
 TEXT="${1:?Usage: feishu-voice-send.sh <text> [receive_id] [voice]}"
-RECEIVE_ID="${2:-ou_XXXXXXXXXXXXXXXXXXXXXXXXXX}"
+RECEIVE_ID="${2:-${FEISHU_RECEIVE_ID}}"
 VOICE="${3:-zh-CN-XiaoxiaoNeural}"
 
-# Load credentials from openclaw config
-CONFIG="/home/boge/.openclaw/openclaw.json"
-APP_ID=$(python3 -c "import json,sys; d=json.load(open('$CONFIG')); print(d['channels']['feishu']['accounts']['main']['appId'])")
-APP_SECRET=$(python3 -c "import json,sys; d=json.load(open('$CONFIG')); print(d['channels']['feishu']['accounts']['main']['appSecret'])")
+# 凭证从环境变量读取
+APP_ID="${FEISHU_APP_ID:?需要设置 FEISHU_APP_ID 环境变量}"
+APP_SECRET="${FEISHU_APP_SECRET:?需要设置 FEISHU_APP_SECRET 环境变量}"
 
 TMPDIR=$(mktemp -d)
 trap 'rm -rf "$TMPDIR"' EXIT
