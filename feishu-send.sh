@@ -4,6 +4,11 @@
 #
 # Both text and voice are MANDATORY. No exceptions.
 # Text = detailed content, Voice = brief summary (3 sentences)
+#
+# 环境变量（3选1）：
+#   FEISHU_RECEIVE_ID  — 接收者 open_id（推荐）
+#   FEISHU_CHAT_ID     — 群聊 ID（oc_ 开头）
+#   第二个参数          — receive_id 位置参数
 
 TEXT="$1"
 VOICE="$2"
@@ -13,10 +18,12 @@ if [ -z "$TEXT" ] || [ -z "$VOICE" ]; then
     exit 1
 fi
 
-# Load credentials
-CONFIG="/home/boge/.openclaw/openclaw.json"
-APP_ID=$(python3 -c "import json; print(json.load(open('$CONFIG'))['channels']['feishu']['accounts']['main']['appId'])")
-APP_SECRET=$(python3 -c "import json; print(json.load(open('$CONFIG'))['channels']['feishu']['accounts']['main']['appSecret'])")
+# 凭证从环境变量读取
+APP_ID="${FEISHU_APP_ID:?需要设置 FEISHU_APP_ID 环境变量}"
+APP_SECRET="${FEISHU_APP_SECRET:?需要设置 FEISHU_APP_SECRET 环境变量}"
+
+# 接收者：优先用参数，其次环境变量
+RECEIVE_ID="${FEISHU_RECEIVE_ID:-${FEISHU_CHAT_ID}}"
 
 # Get token
 TOKEN=$(curl -sf -X POST 'https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal' \
@@ -32,7 +39,7 @@ text = """$TEXT"""
 text = text.replace('\\n', '\n').replace('\\r', '\r')
 
 payload = {
-    "receive_id": "ou_XXXXXXXXXXXXXXXXXXXXXXXXXX",
+    "receive_id": "$RECEIVE_ID",
     "msg_type": "text",
     "content": json.dumps({"text": text})
 }
